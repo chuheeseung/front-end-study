@@ -3,7 +3,7 @@ import Habit from './habit';
 import HabitAddForm from './habitAddForm';
 
 class Habits extends Component {
-    
+    /*
     handleIncrement = (habit) => {
         this.props.onIncrement(habit);
     }
@@ -19,8 +19,11 @@ class Habits extends Component {
     handleAdd = (name) => {
         this.props.onAdd(name);
     }
+    */
 
     render() {
+        console.log('habits');
+
         return (
             <>
                 <HabitAddForm onAdd={this.handleAdd} />
@@ -30,9 +33,9 @@ class Habits extends Component {
                             <Habit 
                                 key={habit.id} 
                                 habit={habit} 
-                                onIncrement={this.handleIncrement}
-                                onDecrement={this.handleDecrement}
-                                onDelete={this.handleDelete} 
+                                onIncrement={this.props.onIncrement}
+                                onDecrement={this.props.onDecrement}
+                                onDelete={this.props.onDelete} 
                             />
                         ))
                     }
