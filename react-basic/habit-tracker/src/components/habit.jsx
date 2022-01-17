@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 
-class Habit extends Component {
+class Habit extends PureComponent {
     
     handleIncrement = () => {
         this.props.onIncrement(this.props.habit);
@@ -18,6 +18,7 @@ class Habit extends Component {
         // const name = this.props.habit.name;
         // const count = this.props.habit.count;
         const {name, count} = this.props.habit; // 이름이 같아야 한다
+        // const {count} = this.props; // #1
 
         return (
         <li className="habit">
