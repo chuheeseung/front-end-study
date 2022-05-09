@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<body>
+    <div id="root"></div>
+</body>
+<!-- import React -->
+<script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
+<script>
+    // React : Javascript => HTML
+    // Vanilla JS : HTML => Javascript
+    const root = document.getElementById("root");
+
+    // 1. create span
+    const span = React.createElement(
+        "span", 
+        {id: "sexy-span", style: {color: "red"}}, 
+        "Hello, I'm a span"
+    );
+
+    // 2. render : React element를 가지고 HTML로 만들어 배치 -> show to the user
+    ReactDOM.render(span, root); // render span inside of the root
+
+</script>
+</html>
