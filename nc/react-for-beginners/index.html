@@ -5,35 +5,73 @@
 <!-- import React, ReactDOM -->
 <script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
 <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
-<script>
+<!-- import BABEL -->
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script type="text/babel">
     // React : Javascript => HTML
     // Vanilla JS : HTML => Javascript
     const root = document.getElementById("root");
 
     // 1. create span
-    const h3 = React.createElement(
-        "h3", 
-        {onMouseEnter: () => console.log("mouse enter")},
-        "Hello, I'm a span"
+    // const h3 = React.createElement(
+    //     "h3", 
+    //     {
+    //         id: "title",
+    //         onMouseEnter: () => console.log("mouse enter")
+    //     },
+    //     "Hello, I'm a span"
+    // );
+
+    // 6. new way using jsx
+    const Title = () => (
+        <h3 
+            id="title" 
+            onMouseEnter={() => console.log("I'm clicked")}
+        >
+            Hello I'm a title
+        </h3>
     );
 
     // 2. render : React element를 가지고 HTML로 만들어 배치 -> show to the user
     // ReactDOM.render(span, root); // render span inside of the root
 
     // 3. create button
-    const btn = React.createElement(
-        "button",
-        {
-            onClick: () => console.log("I'm clicked"),
-        },
-        "Click Me"
+    // const btn = React.createElement(
+    //     "button",
+    //     {
+    //         onClick: () => console.log("I'm clicked"),
+    //     },
+    //     "Click Me"
+    // );
+
+    // 6. new way using jsx
+    const Button = () => (
+        <button 
+            style={{
+                backgroundColor: "tomato"
+            }} 
+            onClick={() => console.log("I'm clicked")}
+        >
+            Click me
+        </button>
     );
 
     // 4. render 
     // ReactDOM.render(btn, root); // btn이 span을 덮어 쓴다
 
     // 5. span과 btn이 같이 나오게 하는 방법
-    const container = React.createElement("div", null, [h3, btn]);
-    ReactDOM.render(container, root);
+    // const container = React.createElement("div", null, [h3, btn]);
+
+    // 6. jsx
+    const Container = () => (
+        <div>
+            <button>Hello</button>
+            <Title/> 
+            <Button/>
+        </div>
+    );
+
+    // ReactDOM.render(container, root);
+    ReactDOM.render(<Container />, root);
 </script>
 </html>
