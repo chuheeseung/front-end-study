@@ -1,23 +1,52 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import Loading from '../components/Loading';
 
 export default function Detail() {
     const { id } = useParams();
+    const [loading, setLoading] = useState(true);
+    const [movieInfo, setMovieInfo] = useState([]);
 
-    const getMovie = async () => {
+    const getMovie = useCallback(async () => {
         const json = await (
             await fetch(`https://yts.mx/api/v2/movie_details.json?movie_id=${id}`)
         ).json();
 
-        console.log(json);
-    };
+        setMovieInfo(json.data.movie);
+        console.log(movieInfo);
+        setLoading(false);
+
+        // console.log(json);
+    });
 
     useEffect(() => {
         getMovie();
     }, []);
     
     return (
-        <h1>Detail</h1>
+        <div>
+            {loading 
+                ? <Loading /> 
+                : 
+                <div>
+                    <img 
+                        src={movieInfo.background_image} 
+                        alt={movieInfo.background_image} 
+                        style={{width: "400px", height: "300px"}}
+                    />
+                    <div>
+                        <h1>{movieInfo.title}</h1>
+                        <ul style={{padding: "0 0 0 20px", fontSize: "18px"}}>
+                            <li>Rating : {movieInfo.rating}</li>
+                            <li>Genres : 
+                                <ul>
+                                    {movieInfo.genres.map((g, index) => <li key={index}>{g}</li>)}
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>}
+        </div>
     )
 }

@@ -1,5 +1,6 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
+import Loading from '../components/Loading';
 import Movie from '../components/Movie';
 
 export default function Home() {
@@ -23,7 +24,7 @@ export default function Home() {
 
     return (
         <div>
-            {loading ? <h1>Loading...</h1> : 
+            {loading ? <Loading /> : 
                 <div>
                     {movies.map((movie) => 
                         <Movie 
