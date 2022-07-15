@@ -1,7 +1,8 @@
-import React from 'react'
+import React from 'react';
+import styles from '../routes/Home.module.css';
 
 export default function Loading() {
     return (
-        <h1>Loading</h1>
+        <div className={styles.loader}>Loading</div>
     )
 }

@@ -2,13 +2,14 @@ import React, { useCallback, useState } from 'react';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Loading from '../components/Loading';
+import styles from './Detail.module.css';
 
 export default function Detail() {
     const { id } = useParams();
     const [loading, setLoading] = useState(true);
     const [movieInfo, setMovieInfo] = useState([]);
 
-    const getMovie = useCallback(async () => {
+    const getMovie = useCallback( async () => {
         const json = await (
             await fetch(`https://yts.mx/api/v2/movie_details.json?movie_id=${id}`)
         ).json();
@@ -31,16 +32,16 @@ export default function Detail() {
                 : 
                 <div>
                     <img 
-                        src={movieInfo.background_image} 
-                        alt={movieInfo.background_image} 
-                        style={{width: "400px", height: "300px"}}
+                        src={movieInfo.medium_cover_image} 
+                        alt={movieInfo.medium_cover_image} 
+                        className={styles.movie_background_img}
                     />
-                    <div>
+                    <div className={styles.movie_info}>
                         <h1>{movieInfo.title}</h1>
                         <ul style={{padding: "0 0 0 20px", fontSize: "18px"}}>
                             <li>Rating : {movieInfo.rating}</li>
                             <li>Genres : 
-                                <ul>
+                                <ul style={{ padding: "0 0 0 20px", fontSize: "16px" }}>
                                     {movieInfo.genres.map((g, index) => <li key={index}>{g}</li>)}
                                 </ul>
                             </li>
