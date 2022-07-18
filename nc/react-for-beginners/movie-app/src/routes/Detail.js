@@ -20,7 +20,7 @@ export default function Detail() {
 
         // console.log(json);
     });
-
+        
     useEffect(() => {
         getMovie();
     }, []);

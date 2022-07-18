@@ -11,7 +11,7 @@ class Habit extends Component {
 
     handleDelete = () => {
         this.props.onDelete(this.props.habit);
-    }
+    };
 
 
     render() {
@@ -22,13 +22,22 @@ class Habit extends Component {
             <li className="habit">
                 <span className="habit-name">{name}</span>
                 <span className="habit-count">{count}</span>
-                <button className="habit-button habit-increase" onClick={this.handleIncrement}>
+                <button 
+                    className="habit-button habit-increase" 
+                    onClick={this.handleIncrement}
+                >
                     <i className="fa-solid fa-square-plus"></i>
                 </button>
-                <button className="habit-button habit-decrease" onClick={this.handleDecrement}>
+                <button 
+                    className="habit-button habit-decrease" 
+                    onClick={this.handleDecrement}
+                >
                     <i className="fa-solid fa-square-minus"></i>
                 </button>
-                <button className="habit-button habit-delete" onClick={this.handleDelete}>
+                <button 
+                    className="habit-button habit-delete"  
+                    onClick={this.handleDelete}
+                >
                     <i className="fa-solid fa-trash"></i>  
                 </button>
             </li>
