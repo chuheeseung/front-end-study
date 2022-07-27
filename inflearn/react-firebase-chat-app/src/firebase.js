@@ -3,14 +3,15 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import "firebase/auth";
-import "firebase/databse";
+import "firebase/database";
 import "firebase/storage";
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
+var firebaseConfig = {
   apiKey: "AIzaSyAhuglCKvaZ8wuJ1XnB_NMl55lFXXjqi0w",
   authDomain: "react-firebase-chat-app-fcf07.firebaseapp.com",
+  databaseURL: "https://react-firebase-chat-app-fcf07-default-rtdb.firebaseio.com/",
   projectId: "react-firebase-chat-app-fcf07",
   storageBucket: "react-firebase-chat-app-fcf07.appspot.com",
   messagingSenderId: "395480710178",
@@ -21,3 +22,5 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 // const analytics = getAnalytics(app);
+
+export default app;
