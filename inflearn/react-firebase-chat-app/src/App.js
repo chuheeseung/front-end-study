@@ -12,7 +12,7 @@ import LoginPage from './components/LoginPage/LoginPage';
 import RegisterPage from './components/RegisterPage/RegisterPage';
 import { authService } from "./fbase";
 import { onAuthStateChanged } from "firebase/auth";
-import { setUser } from "./redux/actions/user_action";
+import { setUser, clearUser } from "./redux/actions/user_action";
 import { useDispatch, useSelector } from 'react-redux';
 
 function App(props) {
@@ -28,8 +28,10 @@ function App(props) {
         navigate("/");
         dispatch(setUser(user));
       } else { 
-        navigate("/login");
-        dispatch(setUser(null));
+        navigate("/");
+        // navigate("/login");
+        // dispatch(setUser(null));
+        dispatch(clearUser());
       }
     })
   }, []);
