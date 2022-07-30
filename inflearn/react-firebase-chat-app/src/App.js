@@ -10,26 +10,26 @@ import {
 import ChatPage from './components/ChatPage/ChatPage';
 import LoginPage from './components/LoginPage/LoginPage';
 import RegisterPage from './components/RegisterPage/RegisterPage';
-import firebase from './firebase';
+import { authService } from "./fbase";
+import { onAuthStateChanged } from "firebase/auth";
+import { setUser } from "./redux/actions/user_action";
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  setUser
-} from './redux/actions/user_action';
 
 function App(props) {
-  let history = useNavigate();
+  const navigate = useNavigate();
   let dispatch = useDispatch();
-  const isLoading = useSelector(state => state.user.isLoading);
+  const isLoading = useSelector((state) => state.user.isLoading);
 
   useEffect(() => {
-    firebase.auth.onAuthStateChanged(user => {
+    onAuthStateChanged(authService, (user) => {
       console.log('user', user);
 
-      if(user) { // 로그인이 된 상태s
-        props.history.push("/");
+      if(user) { 
+        navigate("/");
         dispatch(setUser(user));
-      } else { // 로그인이 되지 않은 상태
-        props.history.push("/login");
+      } else { 
+        navigate("/login");
+        dispatch(setUser(null));
       }
     })
   }, []);
@@ -49,14 +49,6 @@ function App(props) {
       </Routes>
     )
   }
-
-  return (
-    <Routes>
-        <Route exact path="/" element={<ChatPage />} />
-        <Route exact path="/login" element={<LoginPage />} />
-        <Route exact path="/register" element={<RegisterPage />} />
-      </Routes>
-  );
 }
 
 export default App;

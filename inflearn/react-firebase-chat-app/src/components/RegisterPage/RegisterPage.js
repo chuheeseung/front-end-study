@@ -1,7 +1,9 @@
 import React, { useRef, useState } from 'react';
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
-import firebase from '../../firebase';
+import { authService, dbService } from '../../fbase';
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { ref, set } from 'firebase/database';
 import md5 from 'md5';
 
 function RegisterPage() {
@@ -15,19 +17,17 @@ function RegisterPage() {
   const onSubmit = async (data) => {
     try {
       setLoading(true);
-      let createdUser = await firebase
-        .auth()
-        .createUserWithEmailAndPassword(data.email, data.passowrd);
+      let createdUser = await createUserWithEmailAndPassword(authService, data.email, data.passowrd);
       
       console.log('createdUser', createdUser);
 
-      await createdUser.user.updateProfile({
+      await updateProfile(authService.currentUser, {
         displayName: data.name,
         photoURL: `http://gravatar.com/avatar/${md5(createdUser.user.email)}?d=identicon`
       })
 
       // firebase 데이터베이스에 저장해주기
-      await firebase.database().ref("users").child(createdUser.user.uid).set({
+      set(ref(dbService, `users/${createdUser.user.uid}`), {
         name: createdUser.user.displayName,
         image: createdUser.user.photoURL
       })
@@ -59,7 +59,7 @@ function RegisterPage() {
         <label>Name</label>
         <input 
           name="name"
-          {...register({ required: true, maxLength: 10 })} 
+          {...register("name", { required: true, maxLength: 10 })} 
         />
         {errors.name && errors.name.type === "required"
           && <p>This name field is required</p>}
@@ -93,7 +93,9 @@ function RegisterPage() {
           && <p>The passwords do not match</p>}
 
           {errorFromSubmit && 
-            <p>{errorFromSubmit}</p>}
+            <p>{errorFromSubmit}</p>
+          }
+
         <input type="submit" disabled={loading} />
       </form>
       <Link style={{color: 'gray', textDecoration: 'none'}} to="login">이미 아이디가 있다면...</Link>
