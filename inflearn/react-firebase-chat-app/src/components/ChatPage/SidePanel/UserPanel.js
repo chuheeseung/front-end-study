@@ -1,16 +1,16 @@
 import React, { useRef } from 'react';
+import { Dropdown, Image } from 'react-bootstrap';
 import { IoIosChatboxes } from 'react-icons/io';
-import Dropdown from 'react-bootstrap/Dropdown';
-import Image from 'react-bootstrap/Image';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { signOut, updateProfile } from 'firebase/auth';
 import { authService, dbService, storageService } from '../../../fbase';
-import { signOut } from 'firebase/auth';
-// import mime from 'mime-types';
-// import firebase from './fbase'
+import { uploadBytesResumable, ref as strRef, getDownloadURL } from 'firebase/storage';
+import { ref, update } from 'firebase/database';
+import { setPhotoURL } from '../../../redux/actions/user_action';
 
 function UserPanel() {
   const user = useSelector(state => state.user.currentUser);
-
+  const dispatch = useDispatch();
   const inputOpenImageRef = useRef();
 
   const handleLogout = () => {
@@ -19,49 +19,82 @@ function UserPanel() {
     }).catch((error) => {
 
     });
-  };
-
+  }
   const handleOpenImageRef = () => {
     inputOpenImageRef.current.click();
-  };
+  }
+  const handleUploadImage = async (e) => {
+    const file = e.target.files[0];
+    const user = authService.currentUser;
+    const metadata = { contentType: file.type };
 
-  const handleUploadImage = async (event) => {
-  //   // const file = event.target.files[0];
+    try {
+      let uploadTask = uploadBytesResumable(strRef(storageService, `user_image/${user.uid}`), file, metadata);
+      uploadTask.on('state_changed',
+        (snapshot) => {
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log('Upload is ' + progress + '% done');
+          switch (snapshot.state) {
+            case 'paused':
+              console.log('Upload is paused');
+              break;
+            case 'running':
+              console.log('Upload is running');
+              break;
+          }
+        },
+        (error) => {
+          switch (error.code) {
+            case 'storage/unauthorized':
+              break;
+            case 'storage/canceled':
+              break;
+            case 'storage/unknown':
+              break;
+          }
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            // 프로필 이미지 수정
+            updateProfile(user, {
+              photoURL: downloadURL
+            })
 
-  //   // const metadata = { contentType: mime.lookup(file.name) };
-    
-  //   // 스토리지에 파일 저장하기
-  //   // try {
-  //   //   let uploadTaskSnapShot = await firebase.storage().ref()
-  //   //     .child(`user_image/${user.uid}`);
-      
-  //   // } catch (error) {
+            dispatch(setPhotoURL(downloadURL))
 
-  //   // }
+            //데이터베이스 유저 이미지 수정
+            update(ref(dbService, `users/${user.uid}`), { image: downloadURL })
+          });
+        }
+      );
+    } catch (error) {
+      console.log(error)
+    }
 
-  //   console.log('file', file);
-  };
+  }
+
 
   return (
     <div>
-      {/* Logo */}
-      <h3 style={{ color: 'white' }}>
-        <IoIosChatboxes />{" "} Chat App
-      </h3>
-      
-      <div style={{ display: 'flex', marginBottom: '1rem' }}>
-        <Image 
+      <h3 style={{ color: 'white' }}><IoIosChatboxes />{" "} Chat App</h3>
+
+      <div style={{ display: "flex", marginBottom: "1rem" }}>
+        <Image
           src={user && user.photoURL}
-          style={{ width: '30px', height: '30px', marginTop: '3px' }}
-          roundedCircle 
+          style={{ width: '30px', height: '30px', marginTop: '3px' }} roundedCircle
+        />
+        <input
+          type="file"
+          accept="image/jpeg, image/png"
+          ref={inputOpenImageRef}
+          style={{ display: 'none' }}
+          onChange={handleUploadImage}
         />
         <Dropdown>
-          <Dropdown.Toggle 
+          <Dropdown.Toggle
             style={{ background: 'transparent', border: '0px' }}
-            id="dropdown-basic"
-          >
-            {/* {user && user.displayName} */}
-            user name
+            id="dropdown-basic">
+            {user && user.displayName}
           </Dropdown.Toggle>
 
           <Dropdown.Menu>
@@ -70,16 +103,8 @@ function UserPanel() {
           </Dropdown.Menu>
         </Dropdown>
       </div>
-
-      <input 
-          onChange={handleUploadImage}
-          accept="image/jpeg, image/png"
-          ref={inputOpenImageRef}
-          style={{ display: "none" }} 
-          type="file" 
-        />
     </div>
-  )
+  );
 }
 
-export default UserPanel
+export default UserPanel;
