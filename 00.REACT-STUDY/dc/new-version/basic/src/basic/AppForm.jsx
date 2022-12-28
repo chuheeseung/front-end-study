@@ -17,7 +17,6 @@ export default function AppForm() {
 				name="name"
 				value={name}
 				onChange={(e) => {
-					console.log(e.target.value);
 					setName(e.target.value);
 				}}
 			/>
@@ -28,7 +27,6 @@ export default function AppForm() {
 				name="email"
 				value={email}
 				onChange={(e) => {
-					console.log(e.target.value);
 					setEmail(e.target.value);
 				}}
 			/>

@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import AppForm from './basic/AppForm';
+import AppProducts from './basic/AppProducts';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -11,6 +11,7 @@ root.render(
 		{/* <AppProducts /> */}
 		{/* <AppXY /> */}
 		{/* <AppMentor /> */}
-		<AppForm />
+		{/* <AppMentorsButton /> */}
+		<AppProducts />
 	</React.StrictMode>
 );
