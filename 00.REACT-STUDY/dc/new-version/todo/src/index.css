@@ -4,6 +4,8 @@
 	--color-grey: #d1d1d1;
 	--color-text: #22243b;
 	--color-accent: #f16e03;
+	--color-white: white;
+	--color-scrollbar: #aaa7a7;
 }
 
 body {
@@ -12,6 +14,8 @@ body {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	font-size: 1.2rem;
+	accent-color: var(--color-accent); /* checkbox completed color */
 	background: rgb(211, 210, 226);
 	background: linear-gradient(
 		135deg,
@@ -27,6 +31,7 @@ body {
 	height: 60%;
 	max-width: 500px;
 	background-color: var(--color-bg-dark);
+	overflow: hidden;
 	border-radius: 1rem;
 	display: flex;
 	flex-direction: column;
@@ -35,7 +40,32 @@ body {
 	-moz-box-shadow: -3px 10px 21px 0px rgba(0, 0, 0, 0.75);
 }
 
+* {
+	box-sizing: border-box;
+}
+
 ul {
 	list-style: none;
 	padding-left: 0;
+}
+
+button {
+	outline: none;
+	border: none;
+}
+
+::-webkit-scrollbar {
+	width: 0.5rem;
+}
+
+::-webkit-scrollbar-track {
+	background-color: var(--color-bg-dark);
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: var(--color-scrollbar);
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background-color: var(--color-accent);
 }
