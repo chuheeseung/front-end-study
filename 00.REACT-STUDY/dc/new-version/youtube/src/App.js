@@ -1,7 +1,7 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Outlet } from 'react-router-dom';
 import SearchHeader from './components/SearchHeader';
-import { YoutubeApiProvider } from './contexts/YoutubeApiCcontext';
+import { YoutubeApiProvider } from './contexts/YoutubeApiContext';
 
 const queryClient = new QueryClient();
 
