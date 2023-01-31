@@ -3,11 +3,17 @@ import styles from './Filters.module.css';
 
 function Filters({ filters, filter, onFilterChange }) {
 	return (
-		<header>
+		<header className={styles.header}>
 			{filters.map((value, index) => {
-				<button key={index} onClick={() => onFilterChange(value)}>
-					{value}
-				</button>;
+				return (
+					<button
+						key={index}
+						className={styles.button}
+						onClick={() => onFilterChange(value)}
+					>
+						{value}
+					</button>
+				);
 			})}
 		</header>
 	);

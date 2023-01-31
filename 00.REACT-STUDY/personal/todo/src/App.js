@@ -1,5 +1,5 @@
 import './App.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import TodoList from './components/TodoList/TodoList';
 import Filters from './components/Filters/Filters';
 import NewTodo from './components/NewTodo/NewTodo';
@@ -14,6 +14,10 @@ function App() {
 	const getNewTodo = (response) => {
 		setTodos([...todos, response]);
 	};
+
+	useEffect(() => {
+		// filter가 변할 때마다 todos에서 filter 맞는거만 걸러주어서 setTodos에 저장
+	}, [filter]);
 
 	return (
 		<div className="app">

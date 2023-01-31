@@ -1,0 +1,15 @@
+.header {
+	display: flex;
+}
+
+.button {
+	background-color: #99ccff;
+	margin: 0 0.5rem;
+	border-radius: 1.5rem;
+	cursor: pointer;
+}
+
+.button:hover {
+	transition: all ease 0.1s;
+	transform: scale(1.04);
+}
